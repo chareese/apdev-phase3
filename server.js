@@ -5,8 +5,8 @@ const app = express();
 const mongoose = require("mongoose");
 const session = require('express-session');
 const mongoDBSession = require('connect-mongodb-session')(session);
-// const passport= require("passport") 
-// const passportLocalMongoose = require("passport-local-mongoose") 
+const passport= require("passport") 
+const passportLocalMongoose = require("passport-local-mongoose") 
 // npm init -y
 // npm install ejs express express-session body-parser mongoose  connect-mongodb-session path fs
 
@@ -14,6 +14,8 @@ const fileUpload = require('express-fileupload');
 app.use(
     fileUpload()
 );
+
+mongoose.set('strictQuery', true);
 
 mongoose.connect("mongodb+srv://charissevaldez:<password>@cluster0.akuroap.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true
@@ -28,24 +30,17 @@ const store = new mongoDBSession({
     collection: "mySessions"
 })
 
-// const usersSchema = new mongoose.Schema({
-//     email: String,
-//     password: String
-// })
+const usersSchema = new mongoose.Schema({
+    email: String,
+    password: String
+})
 
-// usersSchema.plugin(passportLocalMongoose)
+usersSchema.plugin(passportLocalMongoose)
 
-// const User = new mongoose.model("User", usersSchema)
+const User = new mongoose.model("User", usersSchema)
 
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
-
-// const store = new mongoDBSession({
-//     uri: "mongodb+srv://CCAPDEV:CCAPDEV@cluster0.tlotszq.mongodb.net/test",
-//     collection: "test"
-// })
-
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 app.use(session({
