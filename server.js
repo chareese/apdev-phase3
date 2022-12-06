@@ -5,8 +5,10 @@ const app = express();
 const mongoose = require("mongoose");
 const session = require('express-session');
 const mongoDBSession = require('connect-mongodb-session')(session);
-const passport= require("passport") 
-const passportLocalMongoose = require("passport-local-mongoose") 
+// const passport= require("passport") 
+// const passportLocalMongoose = require("passport-local-mongoose") 
+
+
 // npm init -y
 // npm install ejs express express-session body-parser mongoose  connect-mongodb-session path fs
 
@@ -30,17 +32,17 @@ const store = new mongoDBSession({
     collection: "mySessions"
 })
 
-const usersSchema = new mongoose.Schema({
-    email: String,
-    password: String
-})
+// const usersSchema = new mongoose.Schema({
+//     email: String,
+//     password: String
+// })
 
-usersSchema.plugin(passportLocalMongoose)
+// usersSchema.plugin(passportLocalMongoose)
 
-const User = new mongoose.model("User", usersSchema)
+// const User = new mongoose.model("User", usersSchema)
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 
 app.use(session({
